@@ -32,6 +32,7 @@ void affiche_grille (grille g){
 
 void efface_grille (grille g){
 	printf("\n\e[%dA",g.nbl*2 + 5); 
+	system("clear");
 }
 
 void debut_jeu(grille *g, grille *gc){
@@ -41,7 +42,6 @@ void debut_jeu(grille *g, grille *gc){
 		switch (c) {
 			case '\n' : 
 			{ // touche "entree" pour évoluer
-				printf("au revoir\n");
 				evolue(g,gc);
 				efface_grille(*g);
 				affiche_grille(*g);
@@ -54,6 +54,8 @@ void debut_jeu(grille *g, grille *gc){
 				scanf(" %s",in);
 				libere_grille(g);
 				init_grille_from_file(in,g);
+				libere_grille(gc);
+				alloue_grille(g->nbl,g->nbc,gc);
 				affiche_grille(*g);
 				free(in);
 				printf("bonjour\n");
