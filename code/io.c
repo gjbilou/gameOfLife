@@ -13,7 +13,7 @@ void affiche_trait (int c){
 void affiche_ligne (int c, int* ligne){
 	int i;
 	for (i=0; i<c; ++i) 
-		if (ligne[i] == 0 ) printf ("|   "); else printf ("| O ");
+		if (ligne[i] == 0 ) printf ("|   "); else printf ("| 1 ");
 	printf("|\n");
 	return;
 }
@@ -37,12 +37,17 @@ void efface_grille (grille g){
 
 void debut_jeu(grille *g, grille *gc){
 	char c = getchar(); 
+	char tmp;
 	while (c != 'q') // touche 'q' pour quitter
 	{ 
+
 		switch (c) {
 			case '\n' : 
 			{ // touche "entree" pour évoluer
-				evolue(g,gc);
+				if (tmp == c)
+				{
+					evolue(g,gc);
+				}
 				efface_grille(*g);
 				affiche_grille(*g);
 				break;
@@ -50,17 +55,16 @@ void debut_jeu(grille *g, grille *gc){
 			case 'n' :
 			{ //touche "n" pour donner le nom d'une nouvelle 
 			  //grille a afficher
+			  	efface_grille(*g);
 			  	char * in = (char *) malloc(NBR*sizeof(char));
 				scanf(" %s",in);
 				libere_grille(g);
-				init_grille_from_file(in,g);
 				libere_grille(gc);
+				init_grille_from_file(in,g);
 				alloue_grille(g->nbl,g->nbc,gc);
 				affiche_grille(*g);
 				free(in);
-				printf("bonjour\n");
 				break;
-				
 			}
 			default : 
 			{ // touche non traitée
@@ -68,7 +72,9 @@ void debut_jeu(grille *g, grille *gc){
 				break;
 			}
 		}
-		c = getchar(); 
+		tmp = c;
+		c = getchar();
+		
 	}
 	return;	
 }
