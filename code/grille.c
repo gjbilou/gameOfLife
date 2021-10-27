@@ -4,10 +4,10 @@ void alloue_grille (int l, int c, grille* g)
 {
 	g -> nbl = l;
 	g -> nbc = c;
-	g -> cellules = (int **) malloc(g -> nbl * sizeof(int *));
+	g -> cellules = (int **) calloc(g -> nbl , sizeof(int *));
 	for (int i = 0; i < g -> nbl; i ++)
 	{
-		g -> cellules [i] = (int *) malloc(g -> nbc * sizeof(int));
+		g -> cellules [i] = (int *) calloc(g -> nbc, sizeof(int));
 	}
 }
 

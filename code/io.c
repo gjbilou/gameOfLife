@@ -1,4 +1,7 @@
 #include "io.h"
+#include "grille.h"
+#define NBR 100
+
 
 void affiche_trait (int c){
 	int i;
@@ -38,10 +41,24 @@ void debut_jeu(grille *g, grille *gc){
 		switch (c) {
 			case '\n' : 
 			{ // touche "entree" pour évoluer
+				printf("au revoir\n");
 				evolue(g,gc);
 				efface_grille(*g);
 				affiche_grille(*g);
 				break;
+			}
+			case 'n' :
+			{ //touche "n" pour donner le nom d'une nouvelle 
+			  //grille a afficher
+			  	char * in = (char *) malloc(NBR*sizeof(char));
+				scanf(" %s",in);
+				libere_grille(g);
+				init_grille_from_file(in,g);
+				affiche_grille(*g);
+				free(in);
+				printf("bonjour\n");
+				break;
+				
 			}
 			default : 
 			{ // touche non traitée
