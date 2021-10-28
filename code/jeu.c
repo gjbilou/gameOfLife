@@ -1,5 +1,23 @@
+/**
+ * @file jeu.c
+ * @author JBILOU Ghait (ghait.jbilou@etu.unistra.fr)
+ * @brief programme permettant de faire evoluer l'etat des grilles a travers le temps
+ * @version 0.1
+ * @date 2021-10-28
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #include "jeu.h"
 
+/**
+ * @brief fonction permettant de calculer le nombre de cellules vivantes voisines a une cellules donnee/considere
+ * 
+ * @param i le numero de la ligne ou se trouve notre cellule par rapport a laquelle va se faire le calcule
+ * @param j le numero de la colonne ou se trouve notre cellule par rapport a laquelle va se faire le calcule
+ * @param g la grille qui contient la cellules donnee 
+ * @return int le nombre des cellules voisines vivantes de notre cellules "principale"
+ */
 int compte_voisins_vivants (int i, int j, grille g){
 	int v = 0, l=g.nbl, c = g.nbc;
 	v+= est_vivante(modulo(i-1,l),modulo(j-1,c),g);
@@ -14,6 +32,12 @@ int compte_voisins_vivants (int i, int j, grille g){
 	return v; 
 }
 
+/**
+ * @brief fonction permettant de faire evoluer dans le temps les cellules de la grilles 
+ * 
+ * @param g la grilles principale qui va etre evolue 
+ * @param gc la grille secondaire qui servira de copie de la grille g avant evolution
+ */
 void evolue (grille *g, grille *gc){
 	copie_grille (*g,*gc); // copie temporaire de la grille
 	int i,j,l=g->nbl, c = g->nbc,v;
