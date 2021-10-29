@@ -11,7 +11,7 @@
 #include "jeu.h"
 
 /**
- * @brief fonction permettant de calculer le nombre de cellules vivantes voisines a une cellules donnee/considere
+ * @brief fonction permettant de calculer le nombre de cellules vivantes voisines a une cellules donnee/considere sur une grille cyclique
  * 
  * @param i le numero de la ligne ou se trouve notre cellule par rapport a laquelle va se faire le calcule
  * @param j le numero de la colonne ou se trouve notre cellule par rapport a laquelle va se faire le calcule
@@ -31,6 +31,15 @@ int compte_voisins_vivants (int i, int j, grille g){
 
 	return v; 
 }
+
+/**
+ * @brief fonction permettant de calculer le nombre de cellules vivantes voisines a une cellules donnee/considere sur une grille non cyclique
+ * 
+ * @param i le numero de la ligne ou se trouve notre cellule par rapport a laquelle va se faire le calcule
+ * @param j le numero de la colonne ou se trouve notre cellule par rapport a laquelle va se faire le calcule
+ * @param g la grille qui contient la cellules donnee
+ * @return int le nombre des cellules voisines vivantes de notre cellules "principale"
+ */
 int compte_voisins_vivants_ncy (int i, int j, grille g){
 	int v = 0, l=g.nbl, c = g.nbc, y = i, z = j;
 	//printf("%d g.nbl   --- %d g.nbc",l,c);
@@ -114,7 +123,10 @@ int compte_voisins_vivants_ncy (int i, int j, grille g){
 		}
 	}
 	return v;
-}
+}/**
+ * @brief Pointeur vers la fonction compte_voisins_vivants.
+ * 
+ */
 int (*pf)(int, int, grille) = &compte_voisins_vivants;
 
 /**
