@@ -13,5 +13,8 @@ io.o: io.c grille.h jeu.h
 grille.o: grille.c grille.h
 	gcc -c grille.c
 
+
+dist: Doxyfile main.c jeu.c io.c grille.c 
+	tar -Jcvf JBILOU-GHAIT-GoL-v2.6.tar.xz
 clean:
 	rm final *.o
