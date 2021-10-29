@@ -25,13 +25,15 @@ int main (int argc, char ** argv) {
 	
 	if (argc != 2 )
 	{
-		printf("usage : main <fichier grille>");
+		printf("usage : main <fichier grille>\n");
 		return 1;
 	}
 
 	grille g, gc;
 	init_grille_from_file(argv[1],&g);
 	alloue_grille (g.nbl, g.nbc, &gc);
+	system("clear");
+	printf("le nombre d'evolutions est de : 0");
 	affiche_grille(g);
 	
 	debut_jeu(&g, &gc);

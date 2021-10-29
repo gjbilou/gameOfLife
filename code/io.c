@@ -74,7 +74,8 @@ void efface_grille (grille g){
  */
 void debut_jeu(grille *g, grille *gc){
 	char c = getchar(); 
-	char tmp;
+	char tmp = c;
+	int hmt_e = 0;
 	while (c != 'q') // touche 'q' pour quitter
 	{ 
 
@@ -84,8 +85,10 @@ void debut_jeu(grille *g, grille *gc){
 				if (tmp == c)
 				{
 					evolue(g,gc);
+					hmt_e ++;
 				}
 				efface_grille(*g);
+				printf("le nombre d'evolutions est de : %d",hmt_e);
 				affiche_grille(*g);
 				break;
 			}
@@ -93,6 +96,7 @@ void debut_jeu(grille *g, grille *gc){
 			{ //touche "n" pour donner le nom d'une nouvelle 
 			  //grille a afficher
 			  	efface_grille(*g);
+				printf("donnez moi le chemin de la nouvelle grille a afficher : ");
 			  	char * in = (char *) malloc(NBR*sizeof(char));
 				scanf(" %s",in);
 				libere_grille(g);
@@ -101,6 +105,7 @@ void debut_jeu(grille *g, grille *gc){
 				alloue_grille(g->nbl,g->nbc,gc);
 				affiche_grille(*g);
 				free(in);
+				hmt_e = 0;
 				break;
 			}
 			default : 
