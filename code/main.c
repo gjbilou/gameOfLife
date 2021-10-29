@@ -34,6 +34,7 @@ int main (int argc, char ** argv) {
 	alloue_grille (g.nbl, g.nbc, &gc);
 	system("clear");
 	printf("NBR EVOLUTIONS : 0.");
+	printf("\tVIEILLISSEMENT : OFF.");
 	affiche_grille(g);
 	
 	debut_jeu(&g, &gc);

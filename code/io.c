@@ -33,7 +33,7 @@ void affiche_trait (int c){
 void affiche_ligne (int c, int* ligne){
 	int i;
 	for (i=0; i<c; ++i) 
-		if (ligne[i] == 0 ) printf ("|   "); else printf ("| 0 ");
+		if (ligne[i] == 0 ) printf ("|   "); else printf ("| %d ",ligne[i]);
 	printf("|\n");
 	return;
 }
@@ -84,12 +84,31 @@ void debut_jeu(grille *g, grille *gc){
 	char tmp = c;
 	int hmt_e = 0;
 	pf = &compte_voisins_vivants;
+	int v_etat = 0;
+	int v_etait_etat = v_etat;
 	while (c != 'q') // touche 'q' pour quitter
 	{ 
 
 		switch (c) {
 			case '\n' : 
 			{ // touche "entree" pour évoluer
+				if (v_etat == 1 && v_etat == v_etait_etat)
+				{
+					for(int i = 0; i < g->nbl; i++)
+					{
+						for(int j = 0; j< g->nbc; j++)
+						{
+							if (est_vivante(i, j, *g))
+							{
+								g->cellules[i][j]++;
+							}
+						}
+					}
+				}
+				else
+				{
+					v_etait_etat = v_etat;
+				}
 				if (tmp == c)
 				{
 					evolue(g,gc);
@@ -97,6 +116,14 @@ void debut_jeu(grille *g, grille *gc){
 				}
 				efface_grille(*g);
 				printf("NBR EVOLUTIONS : %d.",hmt_e);
+				if (v_etat == 1)
+				{
+					printf("\tVIEILLISSEMENT : ON.");
+				}
+				else
+				{
+					printf("\tVIEILLISSEMENT : OFF.");
+				}
 				affiche_grille(*g);
 				break;
 			}
@@ -104,7 +131,7 @@ void debut_jeu(grille *g, grille *gc){
 			{ //touche "n" pour donner le nom d'une nouvelle 
 			  //grille a afficher
 			  	efface_grille(*g);
-				printf("donnez moi le chemin de la nouvelle grille a afficher : ");
+				printf("CHEMIN DE LA NOUVELLE GRILLE A AFFICHER : ");
 			  	char * in = (char *) malloc(NBR*sizeof(char));
 				scanf(" %s",in);
 				libere_grille(g);
@@ -123,10 +150,31 @@ void debut_jeu(grille *g, grille *gc){
 				affiche_grille(*g);
 				break;
 			}
-			/*case 'v' :
+			case 'v' :
 			{
-
-			}*/
+				if (v_etat == 0) 
+				{
+					v_etat = 1;
+				}
+				else if (v_etat == 1)
+				{
+					v_etat = 0;
+					v_etait_etat = 0;
+					for(int i = 0; i < g->nbl; i++)
+					{
+						for(int j = 0; j< g->nbc; j++)
+						{
+							if (est_vivante(i, j, *g))
+							{
+								g->cellules[i][j]=1;
+							}
+						}
+					}					
+				}
+				efface_grille(*g);
+				affiche_grille(*g);
+				break;
+			}
 			default : 
 			{ // touche non traitée
 				printf("\n\e[1A");
