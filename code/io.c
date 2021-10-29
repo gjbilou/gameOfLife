@@ -46,11 +46,11 @@ void affiche_ligne (int c, int* ligne){
 void affiche_grille (grille g){
 	if(pf == &compte_voisins_vivants)
 	{
-		printf("\tGRILLE CYCLIQUE : OFF.");
+		printf("\tGRILLE CYCLIQUE : ON.");
 	}
 	else
 	{
-		printf("\tGRILLE CYCLIQUE : ON.");
+		printf("\tGRILLE CYCLIQUE : OFF.");
 	}
 	int i, l=g.nbl, c=g.nbc;
 	printf("\n");
