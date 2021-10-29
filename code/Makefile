@@ -15,6 +15,6 @@ grille.o: grille.c grille.h
 
 
 dist: Doxyfile Makefile main.c jeu.c io.c grille.c 
-	tar -Jcvf JBILOU-GHAIT-GoL-v2.6.tar.xz Doxyfile Makefile main.c jeu.c io.c grille.c 
+	tar -Jcvf JBILOU-GHAIT-GoL-v2.7.tar.xz Doxyfile Makefile main.c jeu.c io.c grille.c 
 clean:
 	rm final *.o
