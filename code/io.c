@@ -9,9 +9,8 @@
  * 
  */
 #include "io.h"
-#include "grille.h"
 #define NBR 100
-
+extern int (*pf)(int,int,grille);
 
 /**
  * @brief fonction permettant d'afficher un trait repete selon le nombre de colonne existant
@@ -45,6 +44,14 @@ void affiche_ligne (int c, int* ligne){
  * @param g la grille qu'on va afficher a l'ecran 
  */
 void affiche_grille (grille g){
+	if(pf == &compte_voisins_vivants)
+	{
+		printf("\tGRILLE CICLYQUE : OFF.");
+	}
+	else
+	{
+		printf("\tGRILLE CICLYQUE : ON.");
+	}
 	int i, l=g.nbl, c=g.nbc;
 	printf("\n");
 	affiche_trait(c);
@@ -76,6 +83,7 @@ void debut_jeu(grille *g, grille *gc){
 	char c = getchar(); 
 	char tmp = c;
 	int hmt_e = 0;
+	pf = &compte_voisins_vivants;
 	while (c != 'q') // touche 'q' pour quitter
 	{ 
 
@@ -88,7 +96,7 @@ void debut_jeu(grille *g, grille *gc){
 					hmt_e ++;
 				}
 				efface_grille(*g);
-				printf("le nombre d'evolutions est de : %d",hmt_e);
+				printf("NBR EVOLUTIONS : %d.",hmt_e);
 				affiche_grille(*g);
 				break;
 			}
@@ -108,6 +116,17 @@ void debut_jeu(grille *g, grille *gc){
 				hmt_e = 0;
 				break;
 			}
+			case 'c' :
+			{
+				pf = (pf == &compte_voisins_vivants) ? &compte_voisins_vivants_ncy : &compte_voisins_vivants;
+				efface_grille(*g);
+				affiche_grille(*g);
+				break;
+			}
+			/*case 'v' :
+			{
+
+			}*/
 			default : 
 			{ // touche non traitée
 				printf("\n\e[1A");

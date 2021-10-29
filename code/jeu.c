@@ -31,6 +31,91 @@ int compte_voisins_vivants (int i, int j, grille g){
 
 	return v; 
 }
+int compte_voisins_vivants_ncy (int i, int j, grille g){
+	int v = 0, l=g.nbl, c = g.nbc, y = i, z = j;
+	//printf("%d g.nbl   --- %d g.nbc",l,c);
+	if(i-1 == -1)
+	{
+		if(j-1 == -1)
+		{
+			v+=est_vivante(i, j+1, g);
+			v+=est_vivante(i+1, j, g);
+			v+=est_vivante(i+1, j+1, g);
+		}
+		else if (j+1 == c)
+		{
+			v+=est_vivante(i, j-1, g);
+			v+=est_vivante(i+1, j-1, g);
+			v+=est_vivante(i+1, j, g);
+		}
+		else
+		{
+			v+=est_vivante(i, j-1, g);
+			v+=est_vivante(i, j+1, g);
+			v+=est_vivante(i+1, j, g);
+			v+=est_vivante(i+1, j+1, g);
+			v+=est_vivante(i+1, j-1, g);	
+		}
+	}
+	else if (i+1 == l)
+	{
+		if(j-1 == -1)
+		{
+			v+=est_vivante(i, j+1, g);
+			v+=est_vivante(i-1, j, g);
+			v+=est_vivante(i-1, j+1, g);
+		}
+		else if (j+1 == c)
+		{
+			v+=est_vivante(i, j-1, g);
+			v+=est_vivante(i-1, j-1, g);
+			v+=est_vivante(i-1, j, g);
+		}
+		else
+		{
+			v+=est_vivante(i, j-1, g);
+			v+=est_vivante(i, j+1, g);
+			v+=est_vivante(i-1, j, g);
+			v+=est_vivante(i-1, j+1, g);
+			v+=est_vivante(i-1, j-1, g);	
+		}
+	}
+	else
+	{
+		if(j-1 == -1)
+		{
+			v+=est_vivante(i, j+1, g);
+			v+=est_vivante(i-1, j, g);
+			v+=est_vivante(i-1, j+1, g);
+			v+=est_vivante(i+1, j, g);
+			v+=est_vivante(i+1, j+1, g);
+		}
+		else if (j+1 == c)
+		{
+			v+=est_vivante(i, j-1, g);
+			v+=est_vivante(i-1, j-1, g);
+			v+=est_vivante(i-1, j, g);
+			v+=est_vivante(i+1, j-1, g);
+			v+=est_vivante(i+1, j, g);
+		}
+		else
+		{
+			v = compte_voisins_vivants(i, j, g);
+			/*
+			v+=est_vivante(i, j-1, g);
+			v+=est_vivante(i, j+1, g);
+			v+=est_vivante(i-1, j, g);
+			v+=est_vivante(i-1, j+1, g);
+			v+=est_vivante(i-1, j-1, g);
+			v+=est_vivante(i+1, j, g);
+			v+=est_vivante(i+1, j+1, g);
+			v+=est_vivante(i+1, j-1, g);	
+			*/
+		}
+	}
+	return v;
+}
+int (*pf)(int, int, grille) = &compte_voisins_vivants;
 
 /**
  * @brief fonction permettant de faire evoluer dans le temps les cellules de la grilles 
@@ -45,7 +130,8 @@ void evolue (grille *g, grille *gc){
 	{
 		for (j=0; j<c; ++j)
 		{
-			v = compte_voisins_vivants (i, j, *gc);
+			
+			v = (*pf)(i, j, *gc);
 			if (est_vivante(i,j,*g)) 
 			{ // evolution d'une cellule vivante
 				if ( v!=2 && v!= 3 ) set_morte(i,j,*g);

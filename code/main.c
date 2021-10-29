@@ -33,7 +33,7 @@ int main (int argc, char ** argv) {
 	init_grille_from_file(argv[1],&g);
 	alloue_grille (g.nbl, g.nbc, &gc);
 	system("clear");
-	printf("le nombre d'evolutions est de : 0");
+	printf("NBR EVOLUTIONS : 0.");
 	affiche_grille(g);
 	
 	debut_jeu(&g, &gc);
