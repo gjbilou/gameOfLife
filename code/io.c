@@ -92,7 +92,7 @@ void debut_jeu(grille *g, grille *gc){
 		switch (c) {
 			case '\n' : 
 			{ // touche "entree" pour évoluer
-				if (v_etat == 1 && v_etat == v_etait_etat)
+				if (v_etat == 1 && v_etat == v_etait_etat && tmp == c)
 				{
 					for(int i = 0; i < g->nbl; i++)
 					{

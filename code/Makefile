@@ -13,8 +13,12 @@ io.o: io.c grille.h jeu.h
 grille.o: grille.c grille.h
 	gcc -c grille.c
 
+#avec un Doxyfile deja existant afin de generer que la documentation 
+docs:
+	doxygen Doxyfile
 
-dist: Doxyfile Makefile main.c jeu.c io.c grille.c grilles
-	tar -Jcvf JBILOU-GHAIT-GoL-v2.9.tar.xz Doxyfile Makefile main.c jeu.c jeu.h io.c io.h grille.c grille.h grilles
+dist: 
+	tar -Jcvf JBILOU-GHAIT-GoL-v2.6.tar.xz Doxyfile Makefile main.c jeu.c jeu.h io.c io.h grille.c grille.h grilles
+
 clean:
 	rm final *.o
