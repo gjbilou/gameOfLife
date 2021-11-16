@@ -1,17 +1,16 @@
-final: main.o jeu.o io.o grille.o
-	gcc -o final main.o jeu.o io.o grille.o
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra
+ODIR = obj
+SDIR = src
+IDIR = include
+BDIR = bin
+OBJS = $(ODIR)/main.o $(ODIR)/jeu.o $(ODIR)/io.o $(ODIR)/grille.o
 
-main.o: main.c grille.h io.h jeu.h
-	gcc -c main.c
+final : $(OBJS)
+	$(CC) -o $(BDIR)/final $(OBJS) -I$(IDIR)
 
-jeu.o: jeu.c jeu.h grille.h
-	gcc -c jeu.c
-
-io.o: io.c grille.h jeu.h
-	gcc -c io.c
-
-grille.o: grille.c grille.h
-	gcc -c grille.c
+$(OBJS): $(ODIR)/%.o: $(SDIR)/%.c $(IDIR)
+	$(CC) -c $< -I$(IDIR) -o $@ 
 
 #avec un Doxyfile deja existant afin de generer que la documentation 
 docs:
@@ -21,4 +20,4 @@ dist:
 	tar -Jcvf JBILOU-GHAIT-GoL-v2.6.tar.xz Doxyfile Makefile main.c jeu.c jeu.h io.c io.h grille.c grille.h grilles
 
 clean:
-	rm final *.o
+	rm $(BDIR)/final $(ODIR)/*.o

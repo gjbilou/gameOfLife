@@ -142,20 +142,23 @@ void evolue (grille *g, grille *gc, int viellissement){
 	{
 		for (j=0; j<c; ++j)
 		{
-			
-			v = (*pf)(i, j, *gc);
-			if (est_vivante(i,j,*g)) 
-			{ // evolution d'une cellule vivante
-				if ( v!=2 && v!= 3 ) set_morte(i,j,*g);
-			}
-			else 
-			{ // evolution d'une cellule morte
-				if ( v==3 ) set_vivante(i,j,*g);
-			}
-			if (viellissement == 1 && g->cellules[i][j] == 10)
+			if (g->cellules[i][j]!= -1)
 			{
-				set_morte(i,j,*g);
+				v = (*pf)(i, j, *gc);
+				if (est_vivante(i,j,*g)) 
+				{ // evolution d'une cellule vivante
+					if ( v!=2 && v!= 3 ) set_morte(i,j,*g);
+				}
+				else 
+				{ // evolution d'une cellule morte
+					if ( v==3 ) set_vivante(i,j,*g);
+				}
+				if (viellissement == 1 && g->cellules[i][j] == 10)
+				{
+					set_morte(i,j,*g);
+				}
 			}
+			
 		}
 	}
 	return;
