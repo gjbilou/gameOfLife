@@ -10,7 +10,10 @@
  */
 #include "io.h"
 #define NBR 100
+#define SIZEX 1920
+#define SIZEY 1200
 extern int (*pf)(int,int,grille);
+
 
 /**
  * @brief fonction permettant d'afficher un trait repete selon le nombre de colonne existant
@@ -50,6 +53,26 @@ void affiche_ligne (int c, int* ligne){
 	return;
 }
 
+void affiche_ligne_GUI (grille g, int i, int j, cairo_t *cr)
+{
+	char v [2];
+	//if (ligne[i] == 0 ) printf ("|   "); else printf ("| %d ",ligne[i]-1);
+	if (g.cellules[i][j]==0)
+	{
+		cairo_show_text(cr," ");
+	}
+	else if (g.cellules[i][j]==-1)
+	{
+		cairo_show_text(cr,"X");
+	}
+	else
+	{
+		sprintf(v, "%d", g.cellules[i][j]-1);		
+		cairo_show_text(cr,v);
+		
+	}
+	return;
+}
 /**
  * @brief fonction permettant d'afficher la grille dans son entierete en faisant appel aux fonction affiche_trait et affiche_ligne
  * 
@@ -75,6 +98,78 @@ void affiche_grille (grille g){
 	return;
 }
 
+void affiche_grille_GUI(cairo_surface_t *surface,grille g){
+
+	cairo_t *cr;
+	cr=cairo_create(surface);
+	char  tab[2];
+	int res1 = (int)(900/g.nbl);
+	int res2 = (int)(900/g.nbc);
+	cairo_select_font_face(cr, "Purisa",
+      		CAIRO_FONT_SLANT_NORMAL,
+      		CAIRO_FONT_WEIGHT_NORMAL);
+  	cairo_set_font_size(cr, 40);
+
+	cairo_set_source_rgb (cr, 0.5, 1.0, 0.5);
+	cairo_paint(cr);
+
+	for(int i = 0; i<g.nbl; i++)
+	{
+		for (int j = 0; j<g.nbc; j++)
+		{
+			cairo_rectangle(cr, j*res1, (1+i)*res2,res1,res2);
+			cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+			cairo_stroke(cr);
+			
+			cairo_move_to(cr, j*res1+res1/3, (1+i)*res2+res2*3/4);
+			affiche_ligne_GUI(g,i,j,cr);
+			
+		}
+	}
+	return ;
+}
+
+
+void window (grille g)
+{
+	// X11 display
+	Display *dpy;
+	Window rootwin;
+	Window win;
+	XEvent e;
+	int scr;
+	
+	// init the display
+	if(!(dpy=XOpenDisplay(NULL))) {
+		fprintf(stderr, "ERROR: Could not open display\n");
+		exit(1);
+	}
+	//printf("bonjour\n");
+	scr=DefaultScreen(dpy);
+	rootwin=RootWindow(dpy, scr);
+
+	win=XCreateSimpleWindow(dpy, rootwin, 1, 1, SIZEX, SIZEY, 0, 
+			BlackPixel(dpy, scr), BlackPixel(dpy, scr));
+
+	XStoreName(dpy, win, "jeu de la vie");
+	XSelectInput(dpy, win, ExposureMask|ButtonPressMask);
+	XMapWindow(dpy, win);
+	
+	// create cairo surface
+	cairo_surface_t *cs; 
+	cs=cairo_xlib_surface_create(dpy, win, DefaultVisual(dpy, 0), SIZEX, SIZEY);
+
+	// run the event loop
+	while(1) {
+		XNextEvent(dpy, &e);
+		if(e.type==Expose && e.xexpose.count<1) {
+			affiche_grille_GUI(cs,g);
+		} else if(e.type==ButtonPress) break;
+	}
+
+	cairo_surface_destroy(cs); // destroy cairo surface
+	XCloseDisplay(dpy); // close the display
+}
 /**
  * @brief fonction permettant d'effacer de l'ecran la grille qu'on vient d'afficher 
  * 
@@ -98,6 +193,7 @@ void debut_jeu(grille *g, grille *gc){
 	pf = &compte_voisins_vivants;
 	int v_etat = 0;
 	int v_etait_etat = v_etat;
+
 	while (c != 'q') // touche 'q' pour quitter
 	{ 
 
@@ -136,7 +232,8 @@ void debut_jeu(grille *g, grille *gc){
 				{
 					printf("\tVIEILLISSEMENT : OFF.");
 				}
-				affiche_grille(*g);
+				window(*g);
+				//affiche_grille(*g);
 				break;
 			}
 			case 'n' :

@@ -2,6 +2,9 @@
 #define __IO_H
 
 #include <stdio.h>
+#include <cairo.h>
+#include <cairo-xlib.h>
+#include <X11/Xlib.h>
 #include "grille.h"
 #include "jeu.h"
 
