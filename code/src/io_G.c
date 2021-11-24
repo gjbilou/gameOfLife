@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2021
  * 
  */
-#include "io.h"
+#include "io_G.h"
 #define NBR 100
 #define SIZEX 1000
 #define SIZEY 1000

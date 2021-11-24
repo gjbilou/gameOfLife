@@ -9,7 +9,6 @@
  * 
  */
 #include <stdio.h>
-
 #include "grille.h"
 #include "io.h"
 #include "jeu.h"
@@ -38,7 +37,8 @@ int main (int argc, char ** argv) {
 	printf("\tVIEILLISSEMENT : OFF.");
 	affiche_grille(g);
 	*/
-	debut_jeu(&g, &gc);
+	window(&g, &gc);
+	//debut_jeu(&g, &gc);
 	
 
 	libere_grille(&g);

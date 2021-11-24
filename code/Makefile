@@ -10,10 +10,10 @@ LDFLAGS += -lcairo -lm -lX11
 
 
 final : $(OBJS)
-	$(CC) -o $(BDIR)/final $(OBJS) $(CPPFLAGS) $(LDFLAGS)
+	$(CC) -g -o $(BDIR)/final $(OBJS) $(CPPFLAGS) $(LDFLAGS)
 
 $(OBJS): $(ODIR)/%.o: $(SDIR)/%.c $(IDIR)
-	$(CC) -c $< $(CPPFLAGS) -o $@ $(LDFLAGS)
+	$(CC) -g -c $< $(CPPFLAGS) -o $@ $(LDFLAGS)
 
 #avec un Doxyfile deja existant afin de generer que la documentation 
 docs:
