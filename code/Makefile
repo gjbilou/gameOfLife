@@ -4,7 +4,7 @@ ODIR = obj
 SDIR = src
 IDIR = include
 BDIR = bin
-OBJS = $(ODIR)/main.o $(ODIR)/jeu.o $(ODIR)/io.o $(ODIR)/grille.o
+OBJS = $(ODIR)/main.o $(ODIR)/jeu.o $(ODIR)/io_G.o $(ODIR)/grille.o 
 CPPFLAGS += -Iinclude -I/usr/include/cairo
 LDFLAGS += -lcairo -lm -lX11
 
