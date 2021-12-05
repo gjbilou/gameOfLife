@@ -63,7 +63,7 @@ docs:
 	doxygen Doxyfile
 
 dist: 
-	tar -Jcvf JBILOU-GHAIT-GoL-v2.6.tar.xz Doxyfile Makefile src include grilles
+	tar -Jcvf JBILOU-GHAIT-GoL-v5.2.tar.xz Doxyfile Makefile src include grilles
 
 clean:
 	rm -rf bin && rm -rf obj && rm -rf lib
