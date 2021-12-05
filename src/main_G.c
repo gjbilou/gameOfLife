@@ -1,17 +1,15 @@
 /**
  * @file main.c
  * @author JBILOU Ghait (ghait.jbilou@etu.unistra.fr)
- * @brief programme principale de notre projet qui va faire appel a l'ensemble des fonctions cree auparavant pour faire fonction le jeu correctement
- * @version 0.1
+ * @brief programme principale de notre projet qui va faire appel a l'ensemble des fonctions cree auparavant pour faire fonction le jeu correctement sous mode graphique
  * @date 2021-10-28
  * 
  * @copyright Copyright (c) 2021
  * 
  */
 #include <stdio.h>
-
 #include "grille.h"
-#include "io.h"
+#include "io_G.h"
 #include "jeu.h"
 
 /**
@@ -33,11 +31,9 @@ int main (int argc, char ** argv) {
 	init_grille_from_file(argv[1],&g);
 	alloue_grille (g.nbl, g.nbc, &gc);
 	system("clear");
-	printf("NBR EVOLUTIONS : 0.");
-	printf("\tVIEILLISSEMENT : OFF.");
-	affiche_grille(g);
 	
-	debut_jeu(&g, &gc);
+	window_g(&g, &gc);
+	
 
 	libere_grille(&g);
 	libere_grille(&gc);

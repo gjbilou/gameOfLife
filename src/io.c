@@ -2,7 +2,6 @@
  * @file io.c
  * @author JBILOU Ghait (ghait.jbilou@etu.unistra.fr)
  * @brief programme contenant les fonction permettant d'organiser les entres et les sorties du programmes.
- * @version 0.1
  * @date 2021-10-28
  * 
  * @copyright Copyright (c) 2021
@@ -10,7 +9,11 @@
  */
 #include "io.h"
 #define NBR 100
+#define SIZEX 1000
+#define SIZEY 1000
 extern int (*pf)(int,int,grille);
+
+
 
 /**
  * @brief fonction permettant d'afficher un trait repete selon le nombre de colonne existant
@@ -50,6 +53,7 @@ void affiche_ligne (int c, int* ligne){
 	return;
 }
 
+
 /**
  * @brief fonction permettant d'afficher la grille dans son entierete en faisant appel aux fonction affiche_trait et affiche_ligne
  * 
@@ -75,6 +79,7 @@ void affiche_grille (grille g){
 	return;
 }
 
+
 /**
  * @brief fonction permettant d'effacer de l'ecran la grille qu'on vient d'afficher 
  * 
@@ -84,6 +89,64 @@ void efface_grille (grille g){
 	printf("\n\e[%dA",g.nbl*2 + 5); 
 	system("clear");
 }
+
+/**
+ * @brief fonction permettant de comparer entre deux grilles et renvoie 1 si elle sont similaire et 0 sinon 
+ * 
+ * @param g la grille d'origine (a laquelle va se faire la comparaison)
+ * @param g1 la grille changeante (qui va nous servir par la suite pour l'oscillation) qui va etre compare a la grille g
+ * @return int permet de retourner 1 si les deux grilles sont similaires et les 0 si les deux grilles ne le sont pas 
+ */
+
+int grille_egale (grille g, grille g1)
+{
+	for(int i = 0; i < g.nbl; i++)
+	{
+		for(int j = 0; j < g.nbc; j++)
+		{
+			if(g.cellules[i][j] != g1.cellules[i][j])
+			{
+				return 0;
+			}
+		} 	
+	}
+	return 1;
+}
+
+
+/**
+ * @brief fonction permettant de determiner si un motif (une grille) peut osciller ou pas
+ * 
+ * @param g grille par rapport a laquelle l'oscillation va etre determine
+ * @param gc copie de la grille g (essentiel pour la fonction evolution)
+ * @param vieillissement l'etat du vieillissement (essentiel pour la fonction evolution)
+ * @return int l'oscillation (nbrs d'evolutions) avant que le motif de la grille g ne se repete
+ */
+
+int est_oscillante(grille *g, grille *gc, int vieillissement)
+{
+	grille g1, gc1;
+	alloue_grille(g->nbl, g->nbc, &g1);
+	alloue_grille(gc->nbl, gc->nbc, &gc1);
+	copie_grille(*g, g1);
+	copie_grille(*gc, gc1);
+	int i;
+	for(i = 1; i<101; i++)
+	{
+		evolue(&g1, &gc1, vieillissement);
+		if (grille_egale(*g, g1) == 1)
+		{
+			return i;
+		}
+	}
+	
+	i = 0;
+	return i;
+	
+	
+}
+
+
 
 /**
  * @brief fonction permettant de derouler le jeu et de le faire avancer selon les inputs de l'utilisateur
@@ -98,9 +161,10 @@ void debut_jeu(grille *g, grille *gc){
 	pf = &compte_voisins_vivants;
 	int v_etat = 0;
 	int v_etait_etat = v_etat;
+	int oslt = 0;
+	int oslt_etat = 0;
 	while (c != 'q') // touche 'q' pour quitter
 	{ 
-
 		switch (c) {
 			case '\n' : 
 			{ // touche "entree" pour évoluer
@@ -135,6 +199,14 @@ void debut_jeu(grille *g, grille *gc){
 				else
 				{
 					printf("\tVIEILLISSEMENT : OFF.");
+				}
+				if (oslt_etat == 0)
+				{
+					printf("\tOSCILLATION : OFF.");
+				}
+				else if (oslt_etat == 1)
+				{
+					printf("\tOSCILLATION : %d  ", oslt);
 				}
 				affiche_grille(*g);
 				break;
@@ -187,6 +259,24 @@ void debut_jeu(grille *g, grille *gc){
 				affiche_grille(*g);
 				break;
 			}
+			
+			case 'o' :
+			{
+				if(oslt_etat == 0)
+				{
+					oslt_etat = 1;
+					oslt = est_oscillante(g, gc, v_etat);
+					
+				}
+				else if(oslt_etat == 1)
+				{
+					oslt_etat = 0;
+					oslt = 0;
+				}
+
+
+			}
+			
 			default : 
 			{ // touche non traitée
 				printf("\n\e[1A");
