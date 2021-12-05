@@ -1,8 +1,7 @@
 /**
  * @file main.c
  * @author JBILOU Ghait (ghait.jbilou@etu.unistra.fr)
- * @brief programme principale de notre projet qui va faire appel a l'ensemble des fonctions cree auparavant pour faire fonction le jeu correctement
- * @version 0.1
+ * @brief programme principale de notre projet qui va faire appel a l'ensemble des fonctions cree auparavant pour faire fonction le jeu correctement sous mode textuelle
  * @date 2021-10-28
  * 
  * @copyright Copyright (c) 2021
@@ -37,7 +36,6 @@ int main (int argc, char ** argv) {
 	printf("\tVIEILLISSEMENT : OFF.");
 	affiche_grille(g);
 	
-	//window_g(&g, &gc);
 	debut_jeu(&g, &gc);
 	
 

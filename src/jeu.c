@@ -2,7 +2,7 @@
  * @file jeu.c
  * @author JBILOU Ghait (ghait.jbilou@etu.unistra.fr)
  * @brief programme permettant de faire evoluer l'etat des grilles a travers le temps
- * @version 0.1
+ 
  * @date 2021-10-28
  * 
  * @copyright Copyright (c) 2021

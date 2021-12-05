@@ -2,7 +2,6 @@
  * @file grille.c
  * @author JBILOU Ghait (ghait.jbilou@etu.unistra.fr)
  * @brief programme permettant la creation de grille, qui est la structure principale de notre projet, grace a la fonction alloue grille et la liberation de cette derniere apres l'avoir utilise.
- * @version 0.1
  * @date 2021-10-28
  * 
  * @copyright Copyright (c) 2021
