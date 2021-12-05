@@ -39,7 +39,7 @@ void affiche_grille_G(cairo_surface_t *surface,grille g)
 	cairo_t *cr;
 	cr=cairo_create(surface);
 	
-	cairo_set_source_rgb (cr, 1.0, 0.8, 0.0);
+	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 	cairo_paint(cr);
 
 	for(int i = 0; i<g.nbl; i++)
@@ -78,52 +78,46 @@ void affiche_etat_V_C(cairo_surface_t * surface,int hmt_e,  int v_etat, int c_et
 	cairo_select_font_face(cr, "Pursia", CAIRO_FONT_SLANT_ITALIC, CAIRO_FONT_WEIGHT_NORMAL);
 	cairo_set_font_size(cr, 40);
 
-	cairo_move_to(cr, SIZEX/3, SIZEY*6.375/9);
-	cairo_show_text(cr, "  Control Panel");
-
+	cairo_move_to(cr, SIZEX*2.25/6, SIZEY*6.375/9);
+	cairo_set_source_rgb (cr, 0.0, 0.5, 1.0);
+	cairo_show_text(cr, "Control Panel");
+	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 	cairo_set_font_size(cr, 30);
 
 
-	cairo_move_to(cr, 0, SIZEY*7/9);
+	cairo_move_to(cr, SIZEX*0.2/6, SIZEY*7/9);
 	cairo_show_text(cr, tab_hmt_e);
 
-	cairo_move_to(cr, 0, SIZEY*7.625/9);
+	cairo_move_to(cr, SIZEX*3.5/6, SIZEY*7/9);
+	cairo_show_text(cr, "Charger une grille  (n)");
+
+	cairo_move_to(cr, SIZEX*0.25/6, SIZEY*7.625/9);
 	if (v_etat == 1)
-	{
-		cairo_show_text(cr, "Vieillissement         : ON");
+	{	
+		cairo_set_source_rgb (cr, 0.5, 1.0, 0.0);
+		cairo_show_text(cr, "Vieillissement (v)    : ON");
 	}
 	else if (v_etat == 0)
 	{
-		cairo_show_text(cr, "Vieillissement         : OFF");
+		cairo_set_source_rgb (cr, 1.0, 0.0, 0.0);
+		cairo_show_text(cr, "Vieillissement (v)    : OFF");
 	}
 	
-	cairo_move_to(cr, SIZEX/2, SIZEY*7.625/9);
+	cairo_move_to(cr, SIZEX*3.5/6, SIZEY*7.625/9);
 	if (c_etat == 1)
 	{
-		cairo_show_text(cr, "Cyclique         : ON" );
+		cairo_set_source_rgb (cr, 0.5, 1.0, 0.0);
+		cairo_show_text(cr, "Grille Cyclique (c) : ON" );
 	}
 	else if (c_etat == 0)
 	{
-		cairo_show_text(cr, "Cyclique         : OFF" );
+		cairo_set_source_rgb (cr, 1.0, 0.0, 0.0);
+		cairo_show_text(cr, "Grille Cyclique (c) : OFF" );
 	}
 	return ;
 }
 
-void affiche_n(cairo_surface_t *surface)
-{
-	//a revoir pour l'ameliorer 
-	//mais je te conseil de la refaire en entier 
-	cairo_t * cr; 
-	cr = cairo_create(surface);
-	cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
-	cairo_select_font_face(cr, "Pursia", CAIRO_FONT_SLANT_ITALIC, CAIRO_FONT_WEIGHT_NORMAL);
-	cairo_set_font_size(cr, 40);
-	
-	cairo_move_to(cr, 0, (SIZEY*2/3)+(SIZEY*1/6));
-	cairo_show_text(cr, "Veuillez vous diriger vers votre terminal.");
 
-
-}
 void window_g (grille * g, grille * gc)
 {
 	// X11 display variables
@@ -155,6 +149,8 @@ void window_g (grille * g, grille * gc)
 
 
 	window = XCreateSimpleWindow(disp, RootWindow(disp, indxScr), 1, 1, SIZEX, SIZEY, 0, BlackPixel(disp, indxScr), BlackPixel(disp, indxScr) );
+
+	XStoreName(disp, window, "Jeu de la Vie");
 
 	cs = cairo_xlib_surface_create(disp, window, DefaultVisual(disp, 0), SIZEX, SIZEY);
 
@@ -266,3 +262,4 @@ void window_g (grille * g, grille * gc)
 }
 
 
+ 

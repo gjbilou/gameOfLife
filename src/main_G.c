@@ -10,7 +10,7 @@
  */
 #include <stdio.h>
 #include "grille.h"
-#include "io.h"
+#include "io_G.h"
 #include "jeu.h"
 
 /**
@@ -33,12 +33,8 @@ int main (int argc, char ** argv) {
 	alloue_grille (g.nbl, g.nbc, &gc);
 	system("clear");
 	
-	printf("NBR EVOLUTIONS : 0.");
-	printf("\tVIEILLISSEMENT : OFF.");
-	affiche_grille(g);
-	
-	//window_g(&g, &gc);
-	debut_jeu(&g, &gc);
+	window_g(&g, &gc);
+	//debut_jeu(&g, &gc);
 	
 
 	libere_grille(&g);
